@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 
 const projects = [
   {
-    title: "Projeto 1",
-    description: "Descrição do projeto virá aqui. Este é um placeholder para seus futuros projetos.",
-    tags: ["React", "Node.js", "SQL"],
-    status: "coming-soon",
+    title: "Calculadora iOS",
+    description: "Calculadora completa com visual iOS, modo claro/escuro, histórico de cálculos persistente e animações fluidas.",
+    tags: ["React", "JavaScript", "LocalStorage"],
+    status: "ready",
+    github: "https://github.com/yurizambrano",
+    demo: "https://lovable.dev",
   },
   {
     title: "Projeto 2",
@@ -46,13 +48,15 @@ export function ProjectsSection() {
                 transform: "perspective(1000px)",
               }}
             >
-              {/* Coming soon overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="text-center p-4">
-                  <Clock className="w-10 h-10 text-primary mx-auto mb-2 animate-glow-pulse" />
-                  <p className="text-sm font-medium">Em breve</p>
+              {/* Coming soon overlay - only for coming-soon projects */}
+              {project.status === "coming-soon" && (
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                  <div className="text-center p-4">
+                    <Clock className="w-10 h-10 text-primary mx-auto mb-2 animate-glow-pulse" />
+                    <p className="text-sm font-medium">Em breve</p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Project image placeholder */}
               <div className="aspect-video rounded-lg bg-muted mb-4 flex items-center justify-center border border-border/50">
@@ -80,14 +84,33 @@ export function ProjectsSection() {
 
               {/* Action buttons */}
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="flex-1 opacity-50" disabled>
-                  <Github className="w-4 h-4 mr-1" />
-                  Código
-                </Button>
-                <Button variant="outline" size="sm" className="flex-1 opacity-50" disabled>
-                  <ExternalLink className="w-4 h-4 mr-1" />
-                  Demo
-                </Button>
+                {project.status === "ready" ? (
+                  <>
+                    <Button variant="outline" size="sm" className="flex-1" asChild>
+                      <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <Github className="w-4 h-4 mr-1" />
+                        Código
+                      </a>
+                    </Button>
+                    <Button variant="outline" size="sm" className="flex-1" asChild>
+                      <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-4 h-4 mr-1" />
+                        Demo
+                      </a>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outline" size="sm" className="flex-1 opacity-50" disabled>
+                      <Github className="w-4 h-4 mr-1" />
+                      Código
+                    </Button>
+                    <Button variant="outline" size="sm" className="flex-1 opacity-50" disabled>
+                      <ExternalLink className="w-4 h-4 mr-1" />
+                      Demo
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           ))}
